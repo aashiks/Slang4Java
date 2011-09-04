@@ -17,35 +17,16 @@ public class CallSlang {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-         // Abstract Syntax Tree (AST) for 5*10
-            Expression e = new BinaryExpression(new NumericConstant(5),
-                                   new NumericConstant(10),
-                                   OPERATOR.MUL);
+        ExpressionBuilder b = new ExpressionBuilder("-2*((6+6)/3)");
+        Expression e = b.GetExpression();
+        //
+        // Evaluate the Expression
+        //
+        System.out.println(e.Evaluate(null));
 
-            //
-            // Evaluate the Expression
-            //
-            //
-            System.out.println(e.Evaluate(null));
-
-            // AST for  (10 + (30 + 50 ) )
-
-            e = new UnaryExpression(
-                         new BinaryExpression(new NumericConstant(10),
-                             new BinaryExpression(new NumericConstant(30),
-                                           new NumericConstant(50),
-                                  OPERATOR.PLUS),
-                         OPERATOR.PLUS),
-                     OPERATOR.MINUS);
-
-            //
-            // Evaluate the Expression
-            //
-            System.out.println(e.Evaluate(null));
-
-            //
-            // Pause for a key stroke
-            //
-            System.in.read();
+        //
+        // Pause for a key stroke
+        //
+        System.in.read();
     }
 }
