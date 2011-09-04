@@ -1,6 +1,6 @@
 A source port of http://slangfordotnet.codeplex.com/.
 
-The original project is writtenin C#.
+The original project was written in C#. This is a Java port so I can get a general idea of the workings of a compiler.
 
 To run, clone the project into a machine with jdk and ant installed. 
 Make sure ant and jdk are in your paths.
