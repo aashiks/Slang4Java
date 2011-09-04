@@ -3,8 +3,6 @@
  * and open the template in the editor.
  */
 package slang4java;
-
-import java.io.Console;
 /**
  *
  * @author aashiks

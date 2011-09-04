@@ -25,7 +25,7 @@ public class NumericConstant extends Expression {
      *  While evaluating a numeric constant , return the _value
      */
     @Override
-    public double Evaluate(RUNTIME_CONTEXT cont) {
+    public double Evaluate(RuntimeContext cont) {
                     return _value;
     }
 }

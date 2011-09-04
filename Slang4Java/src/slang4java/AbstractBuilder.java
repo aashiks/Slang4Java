@@ -7,12 +7,8 @@ package slang4java;
 /**
  *
  * @author aashiks
+ * Base class for all the Builders
  */
-public enum OPERATOR {
-
-    ILLEGAL,
-    PLUS,
-    MINUS,
-    DIV,
-    MUL
+public class AbstractBuilder {
+    
 }

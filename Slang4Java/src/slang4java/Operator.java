@@ -8,10 +8,11 @@ package slang4java;
  *
  * @author aashiks
  */
+public enum Operator {
 
-/**
- * One can store the stack frame inside this class
- */
-public class RUNTIME_CONTEXT {
-    
+    ILLEGAL,
+    PLUS,
+    MINUS,
+    DIV,
+    MUL
 }

@@ -11,15 +11,15 @@ package slang4java;
 public class UnaryExpression extends Expression {
 
     private Expression _ex1;
-    private OPERATOR _op;
+    private Operator _op;
 
-    public UnaryExpression(Expression a, OPERATOR op) {
+    public UnaryExpression(Expression a, Operator op) {
         _ex1 = a;
         _op = op;
     }
 
     @Override
-    public double Evaluate(RUNTIME_CONTEXT cont) {
+    public double Evaluate(RuntimeContext cont) {
         switch (_op) {
             case PLUS:
                 return _ex1.Evaluate(cont);

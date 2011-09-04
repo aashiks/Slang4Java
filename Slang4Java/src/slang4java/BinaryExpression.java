@@ -12,16 +12,16 @@ package slang4java;
 public class BinaryExpression extends Expression {
 
     private Expression _ex1, _ex2;
-    private OPERATOR _op;
+    private Operator _op;
 
-    public BinaryExpression(Expression a, Expression b, OPERATOR op) {
+    public BinaryExpression(Expression a, Expression b, Operator op) {
         _ex1 = a;
         _ex2 = b;
         _op = op;
     }
 
     @Override
-    public double Evaluate(RUNTIME_CONTEXT cont) {
+    public double Evaluate(RuntimeContext cont) {
 
 
         switch (_op) {

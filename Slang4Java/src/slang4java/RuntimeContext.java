@@ -7,8 +7,11 @@ package slang4java;
 /**
  *
  * @author aashiks
- *  Expression is what you evaluates for it's Value
  */
-public abstract class Expression {
-    public abstract double Evaluate(RuntimeContext cont);
+
+/**
+ * One can store the stack frame inside this class
+ */
+public class RuntimeContext {
+    
 }
