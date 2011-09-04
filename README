@@ -1,0 +1,14 @@
+A source port of http://slangfordotnet.codeplex.com/.
+
+The original project is writtenin C#.
+
+To run, clone the project into a machine with jdk and ant installed. 
+Make sure ant and jdk are in your paths.
+Open a terminal, cd into "CallSlang" directory.
+Type in "ant run". This should work :)
+
+Alternatively, since these are Netbeans(v7.x) projects the following steps should also work.
+Start Netbeans.
+Open the CallSlang project. 
+Open the Slang4java project.
+Run the CallSlang project. Check the output window.
