@@ -19,6 +19,10 @@ package slang4java;
         TOK_SUB, // '-'
         TOK_OPAREN, // '('
         TOK_CPAREN, // ')'
-        TOK_DOUBLE, // '('
-        TOK_NULL ;// End of string
+        TOK_DOUBLE, // 'number'
+        TOK_NULL, // End of string
+        TOK_PRINT, // Print Statement
+        TOK_PRINTLN, // PrintLine
+        TOK_UNQUOTED_STRING,
+        TOK_SEMI // ; 
     }

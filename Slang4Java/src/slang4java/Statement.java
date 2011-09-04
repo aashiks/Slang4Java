@@ -7,8 +7,9 @@ package slang4java;
 /**
  *
  * @author aashiks
- *  Expression is what you evaluate for it's Value
+ * 
+ * A statement is what you execute for it's effect
  */
-public abstract class Expression {
-    public abstract double Evaluate(RuntimeContext cont);
+public abstract class Statement {
+    public abstract boolean Execute(RuntimeContext con);
 }

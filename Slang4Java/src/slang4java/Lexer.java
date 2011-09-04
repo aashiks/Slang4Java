@@ -10,65 +10,93 @@ package slang4java;
  */
 public class Lexer {
 
-    String IExpression; // Expression string
-    int index; // index into a character
-    int length; // Length of the string
-    double number; // Last grabbed number from the stream
+    private String _exp;
+    private int _index;
+    private int _length_string;
+    private double _curr_num;
+    private ValueTable[] _val = null;
+    private String last_str;
 
-    public Lexer(String Expression) {
-        IExpression = Expression;
-        length = IExpression.length();
-        index = 0;
+    public Lexer(String expression) {
+        _exp = expression;
+        _length_string = expression.length();
+        _index = 0;
+
+        // populate the value table. 
+        //Is this how we add new supported statements ?
+        // TODO: Ask Pai
+        _val = new ValueTable[2];
+        _val[0] = new ValueTable(Token.TOK_PRINT, "PRINT");
+        _val[1] = new ValueTable(Token.TOK_PRINTLN, "PRINTLINE");
     }
 
-    /*
-     * Grab the next token from the stream
-     */
-    public Token GetToken() throws Exception {
-        Token tok = Token.ILLEGAL_TOKEN;
-        ////////////////////////////////////////////////////////////
-        //
-        // Skip the white space
-        //
-        while (index < length
-                && (IExpression.toCharArray()[index] == ' ' || IExpression.toCharArray()[index] == '\t')) {
-            index++;
+    public double Number() {
+        return _curr_num;
+    }
+
+    public double GetNumber() {
+        return _curr_num;
+    }
+
+    /*public Token GetToken() throws Exception {
+        Token tok = Token.TOK_CNTRLCHAR;
+        while(tok==Token.TOK_CNTRLCHAR)
+        {
+            tok=GetNToken();
         }
-        //////////////////////////////////////////////
-        //
-        // End of string ? return NULL;
-        //
-        if (index == length) {
+        return tok;
+    }*/
+    // Big Ass Custom Tokenizer. Now checks for entries in _val ( the ValueTable)
+    // as well
+
+    public Token GetToken() throws Exception {
+
+        Token tok = Token.ILLEGAL_TOKEN;
+
+        //// Skipping white spaces and control chars
+        while ((_index < _length_string)
+                && (_exp.toCharArray()[_index] == ' ' || 
+                    _exp.toCharArray()[_index] == '\t' ||
+                    _exp.toCharArray()[_index] == '\r' ||
+                    _exp.toCharArray()[_index] == '\n' 
+                    )) {
+            _index++;
+        }
+
+        /// End Of Expression
+        if (_index == _length_string) {
             return Token.TOK_NULL;
         }
-        /////////////////////////////////////////////////
-        //
-        //
-        //
-        switch (IExpression.toCharArray()[index]) {
+
+        switch (_exp.toCharArray()[_index]) {
+           
             case '+':
                 tok = Token.TOK_PLUS;
-                index++;
+                _index++;
                 break;
             case '-':
                 tok = Token.TOK_SUB;
-                index++;
+                _index++;
                 break;
             case '/':
                 tok = Token.TOK_DIV;
-                index++;
+                _index++;
                 break;
             case '*':
                 tok = Token.TOK_MUL;
-                index++;
+                _index++;
                 break;
             case '(':
                 tok = Token.TOK_OPAREN;
-                index++;
+                _index++;
                 break;
             case ')':
                 tok = Token.TOK_CPAREN;
-                index++;
+                _index++;
+                break;
+            case ';':
+                tok = Token.TOK_SEMI;
+                _index++;
                 break;
             case '0':
             case '1':
@@ -81,33 +109,61 @@ public class Lexer {
             case '8':
             case '9': {
                 String str = "";
-                while (index < length
-                        && (IExpression.toCharArray()[index] == '0'
-                        || IExpression.toCharArray()[index] == '1'
-                        || IExpression.toCharArray()[index] == '2'
-                        || IExpression.toCharArray()[index] == '3'
-                        || IExpression.toCharArray()[index] == '4'
-                        || IExpression.toCharArray()[index] == '5'
-                        || IExpression.toCharArray()[index] == '6'
-                        || IExpression.toCharArray()[index] == '7'
-                        || IExpression.toCharArray()[index] == '8'
-                        || IExpression.toCharArray()[index] == '9')) {
-                    str += (IExpression.toCharArray()[index]);
-                    index++;
+                while ((_index < _length_string)
+                        && (_exp.toCharArray()[_index] == '0'
+                        || _exp.toCharArray()[_index] == '1'
+                        || _exp.toCharArray()[_index] == '2'
+                        || _exp.toCharArray()[_index] == '3'
+                        || _exp.toCharArray()[_index] == '4'
+                        || _exp.toCharArray()[_index] == '5'
+                        || _exp.toCharArray()[_index] == '6'
+                        || _exp.toCharArray()[_index] == '7'
+                        || _exp.toCharArray()[_index] == '8'
+                        || _exp.toCharArray()[_index] == '9')) {
+                    str += (_exp.toCharArray()[_index]);
+                    _index++;
                 }
-
-                number = Double.parseDouble(str);
+                _curr_num = Double.parseDouble(str);
                 tok = Token.TOK_DOUBLE;
             }
             break;
-            default:
-                System.out.println("Error While Analyzing Tokens");
-                throw new Exception("Error While Analyzing Tokens");
-        }
-        return tok;
-    }
+            default: //deal with statements
+            {
+                if (Character.isLetter(_exp.toCharArray()[_index])) {
 
-    public double GetNumber() {
-        return number;
+                    String tem = String.valueOf(_exp.toCharArray()[_index]);
+                    _index++;
+                    while (_index < _length_string
+                            && (Character.isLetterOrDigit(_exp.toCharArray()[_index])
+                            || _exp.toCharArray()[_index] == '_')) {
+                        tem += _exp.toCharArray()[_index];
+                        _index++;
+                    }
+
+                    tem = tem.toUpperCase();
+
+                    for (int i = 0; i < this._val.length; ++i) {
+                        if (_val[i].Value.equals(tem)) {
+                            return _val[i].tok;
+                        }
+
+                    }
+
+                    this.last_str = tem;
+
+                    return Token.TOK_UNQUOTED_STRING;
+                } else {
+                    System.out.println("Error tokenizing input");
+                    throw new Exception("Error tokenizing input");
+                }
+            }
+        }
+
+       /* System.out.println("Error tokenizing _exp = " + _exp + "\n"
+                + "after " + _exp.substring(17) + "\n"
+                + " at _index = " + _index + "\n"
+                + "length of input = " + _length_string + "\n"
+                + "\n returning ILLEGAL_TOKEN");*/
+        return tok;
     }
 }
