@@ -98,6 +98,7 @@ public class Lexer {
                 tok = Token.TOK_SEMI;
                 _index++;
                 break;
+                // parse numbers by checking whether each character at the index is a number. The while loop stop as soon as it encounters a non number.
             case '0':
             case '1':
             case '2':
@@ -131,26 +132,27 @@ public class Lexer {
             {
                 if (Character.isLetter(_exp.toCharArray()[_index])) {
 
-                    String tem = String.valueOf(_exp.toCharArray()[_index]);
+                    // Retrieve string literal
+                    String temp = String.valueOf(_exp.toCharArray()[_index]);
                     _index++;
                     while (_index < _length_string
                             && (Character.isLetterOrDigit(_exp.toCharArray()[_index])
                             || _exp.toCharArray()[_index] == '_')) {
-                        tem += _exp.toCharArray()[_index];
+                        temp += _exp.toCharArray()[_index];
                         _index++;
                     }
 
-                    tem = tem.toUpperCase();
-
+                    temp = temp.toUpperCase();
+                    //search for string literal in _val array to see if they are supported, valid statements.
                     for (int i = 0; i < this._val.length; ++i) {
-                        if (_val[i].Value.equals(tem)) {
-                            return _val[i].tok;
+                        if (_val[i].Value.equals(temp)) {
+                            return _val[i].tok; // yers !! found a token
                         }
 
                     }
 
-                    this.last_str = tem;
-
+                    this.last_str = temp;
+                    //not a token, just an unquoted string
                     return Token.TOK_UNQUOTED_STRING;
                 } else {
                     System.out.println("Error tokenizing input");
