@@ -8,10 +8,7 @@ package slang4java;
  *
  * @author aashiks
  */
-/**
- * One can store the stack frame inside this class
- */
-public class RuntimeContext {
+public class CompilationContext {
 
     private SymbolTable symbolTable;
 
@@ -23,9 +20,10 @@ public class RuntimeContext {
         this.symbolTable = symbolTable;
     }
 
-    public RuntimeContext() {
+   
+
+    public CompilationContext() {
         symbolTable = new SymbolTable();
     }
-
-   
+    
 }

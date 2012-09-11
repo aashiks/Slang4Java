@@ -11,5 +11,5 @@ package slang4java;
  * A statement is what you execute for it's effect
  */
 public abstract class Statement {
-    public abstract boolean Execute(RuntimeContext con);
+    public abstract SymbolInfo Execute(RuntimeContext cont) throws Exception;
 }

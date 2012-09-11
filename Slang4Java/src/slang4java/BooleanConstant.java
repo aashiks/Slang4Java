@@ -6,21 +6,18 @@ package slang4java;
 
 /**
  *
- * @author aashiks one can store number inside the class
+ * @author aashiks
  */
-public class NumericConstant extends Expression {
+public class BooleanConstant extends Expression {
 
     private SymbolInfo info;
-    /*
-     *  Construction does not do much , just keeps the 
-     *  value assigned to the private variable
-     */
 
-    public NumericConstant(double value) {
+    public BooleanConstant(boolean pvalue) {
         info = new SymbolInfo();
-        info.DoubleValue = value;
+        info.BoolValue = pvalue;
+        info.Type = TypeInfo.TYPE_BOOL;
         info.SymbolName = null;
-        info.Type = TypeInfo.TYPE_NUMERIC;
+
     }
 
     @Override

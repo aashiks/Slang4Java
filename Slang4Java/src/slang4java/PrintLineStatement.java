@@ -18,10 +18,20 @@ public class PrintLineStatement extends Statement{
         _ex = ex;
     }
     
-    @Override
-    public boolean Execute(RuntimeContext con) {
-        double a = _ex.Evaluate(con);
-        System.out.println(a);
-        return true;
+   @Override
+    public SymbolInfo Execute(RuntimeContext cont) throws Exception {
+    
+        SymbolInfo val = _ex.Evaluate(cont);
+        
+        if (val.Type == TypeInfo.TYPE_NUMERIC){
+            System.out.println(val.DoubleValue);
+        }
+        else if(val.Type == TypeInfo.TYPE_STRING){
+            System.out.println(val.StringValue);
+        }
+        else {
+            System.out.println(val.BoolValue);
+        }
+        return null;
     }
 }

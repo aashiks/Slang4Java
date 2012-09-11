@@ -10,5 +10,7 @@ package slang4java;
  *  Expression is what you evaluate for it's Value
  */
 public abstract class Expression {
-    public abstract double Evaluate(RuntimeContext cont);
+    public abstract SymbolInfo Evaluate(RuntimeContext cont) throws Exception;
+    public abstract TypeInfo TypeCheck(CompilationContext cont) throws Exception;
+    public abstract TypeInfo GetType();
 }

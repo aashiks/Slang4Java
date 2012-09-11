@@ -5,10 +5,21 @@ The original project was written in C#. This is a Java port so I can get a gener
 To run, clone the project into a machine with jdk and ant installed. 
 Make sure ant and jdk are in your paths.
 Open a terminal, cd into "CallSlang" directory.
-Type in "ant run". This should work :)
+Type in "ant". This should create the CallSlang.jar in dist subfolder of CallSlang directory
+
 
 Alternatively, since these are Netbeans(v7.x) projects the following steps should also work.
 Start Netbeans.
 Open the CallSlang project. 
 Open the Slang4java project.
-Run the CallSlang project. Check the output window.
+Compile CallSlang project
+This should create the CallSlang.jar in dist subfolder of CallSlang directory 
+
+SLANG scripts are available in "scripts" subfolder of CallSlang directory
+
+these scripts can be executed from terminal by issuing:
+
+java -jar <fullpath_to_Slang4Java/CallSlang>/dist/CallSlang.jar <fullpath_to_scriptfile>
+
+
+Currently STEP 4 has been ported. Refer to the pdf available in the DOC folder of the archive available from http://slangfordotnet.codeplex.com/

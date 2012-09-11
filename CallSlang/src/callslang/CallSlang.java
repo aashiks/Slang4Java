@@ -4,8 +4,11 @@
  */
 package callslang;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import slang4java.*;
 
 /**
@@ -14,36 +17,52 @@ import slang4java.*;
  */
 public class CallSlang {
 
-    /**
-     * @param args the command line arguments
-     */
-    static void TestFirstScript() throws Exception {
-        String a = "PRINTLINE 2*10;" + "\r\n" + "PRINTLINE 10;\r\n PRINT 2*10;\r\n";
-        RDParser p = new RDParser(a);
-        ArrayList arr = p.Parse();
-        for (Object obj : arr) {
-            Statement s = (Statement) obj;
-            s.Execute(null);
+    static void TestFileScript(String filename) throws FileNotFoundException, Exception {
+        if (filename == null) {
+            return;
         }
-    }
-    /// <summary>
-    /// 
-    /// </summary>
+        StringBuilder text = new StringBuilder();
+        String NL = System.getProperty("line.separator");
+        Scanner scanner = new Scanner(new FileInputStream(filename));
+        try {
+            while (scanner.hasNextLine()) {
+                text.append(scanner.nextLine() + NL);
+            }
+        } finally {
+            scanner.close();
+        }
+        
 
-    static void TestSecondScript() throws Exception {
-        String a = "PRINTLINE -2*10;" + "\r\n" + "PRINTLINE -10*-1;\r\n PRINT 2*10;\r\n";
-        RDParser p = new RDParser(a);
-        ArrayList arr = p.Parse();
-        for (Object obj : arr) {
+        //---------------- Creates the Parser Object
+        // With Program text as argument 
+        RDParser pars = null;
+        pars = new RDParser(text.toString());
+
+        CompilationContext ctx = new CompilationContext();
+        ArrayList stmts = pars.Parse(ctx);
+
+
+        RuntimeContext f = new RuntimeContext();
+        for (Object obj : stmts) {
             Statement s = (Statement) obj;
-            s.Execute(null);
+            s.Execute(f);
         }
+
+
+
+
     }
 
     public static void main(String[] args) throws IOException {
         try {
-            TestFirstScript();
-            TestSecondScript();
+            if (args == null
+                    || args.length != 1) {
+                System.out.println("CallSlang <scriptname>\n");
+                return;
+
+            }
+            TestFileScript(args[0]);
+           
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

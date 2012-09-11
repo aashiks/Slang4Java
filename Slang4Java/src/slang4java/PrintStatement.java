@@ -16,11 +16,23 @@ public class PrintStatement extends Statement {
     public PrintStatement(Expression ex) {
         _ex = ex;
     }
+   
+
     @Override
-    public boolean Execute(RuntimeContext con) {
-        double a = _ex.Evaluate(con);
-        System.out.print(a);
-        return true;
+    public SymbolInfo Execute(RuntimeContext cont) throws Exception {
+    
+        SymbolInfo val = _ex.Evaluate(cont);
+        
+        if (val.Type == TypeInfo.TYPE_NUMERIC){
+            System.out.print(val.DoubleValue);
+        }
+        else if(val.Type == TypeInfo.TYPE_STRING){
+            System.out.print(val.StringValue);
+        }
+        else {
+            System.out.print(val.BoolValue);
+        }
+        return null;
     }
     
     

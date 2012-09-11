@@ -6,21 +6,20 @@ package slang4java;
 
 /**
  *
- * @author aashiks one can store number inside the class
+ * @author aashiks
  */
-public class NumericConstant extends Expression {
-
+public class StringLiteral extends Expression{
     private SymbolInfo info;
     /*
      *  Construction does not do much , just keeps the 
      *  value assigned to the private variable
      */
 
-    public NumericConstant(double value) {
+    public StringLiteral(String value) {
         info = new SymbolInfo();
-        info.DoubleValue = value;
+        info.StringValue = value;
         info.SymbolName = null;
-        info.Type = TypeInfo.TYPE_NUMERIC;
+        info.Type = TypeInfo.TYPE_STRING;
     }
 
     @Override

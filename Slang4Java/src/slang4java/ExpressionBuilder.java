@@ -18,12 +18,12 @@ public class ExpressionBuilder extends AbstractBuilder {
 
     }
 
-    public Expression GetExpression() {
-        try {
-            RDParser p = new RDParser(_expr_string);
-            return p.CallExpression();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public Expression GetExpression() {
+//        try {
+//            RDParser p = new RDParser(_expr_string);
+//            return p.CallExpression();
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 }
