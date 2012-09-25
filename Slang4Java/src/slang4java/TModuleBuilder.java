@@ -18,16 +18,55 @@ public class TModuleBuilder extends AbstractBuilder {
     private ArrayList procs;
     //  
     //    Array of Function Prototypes
-    //    not much use as of now...
     //  
     private ArrayList protos = null;
-
+    
     public TModuleBuilder() {
         procs = new ArrayList();
-        protos = null;
+        protos = new ArrayList();
     }
-
+    
+    public boolean IsFunction(String name) {
+        for (Object o : protos) {
+            FunctionInfo fpinfo = (FunctionInfo) o;
+            if (fpinfo._name.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+        
+    }
+    
+    public void AddFunctionProtoType(String name, TypeInfo ret_type,
+            ArrayList type_infos) {
+        FunctionInfo info = new FunctionInfo(name, ret_type, type_infos);
+        protos.add(info);
+    }
+    
+    public boolean CheckFunctionProtoType(String name, TypeInfo ret_type, ArrayList type_infos) {
+        for (Object o : protos) {
+            FunctionInfo fpinfo = (FunctionInfo) o;
+            if (fpinfo._name.equals(name)) {
+                if (fpinfo._ret_value == ret_type) {
+                    if (type_infos.size() == fpinfo._typeinfo.size()) {
+                        int i;
+                        for (i = 0; i < type_infos.size(); ++i) {
+                            TypeInfo a = (TypeInfo) type_infos.get(i);
+                            TypeInfo b = (TypeInfo) type_infos.get(i);
+                            
+                            if (a != b) {
+                                return false;
+                            }
+                        }
+                        return true;                        
+                    }
+                }                
+            }
+        }
+        return false;
+    }
     //      Add Procedure
+
     public boolean Add(Procedure p) {
         procs.add(p);
         return true;
@@ -46,7 +85,7 @@ public class TModuleBuilder extends AbstractBuilder {
             if (((Procedure) p).getM_name().equals(name)) {
                 return ((Procedure) p);
             }
-
+            
         }
         return null;
     }

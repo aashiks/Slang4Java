@@ -109,7 +109,7 @@ public class Lexer {
         // Fill the Keywords
         //
         //
-        keywords = new ValueTable[13];
+        keywords = new ValueTable[16];
 
         keywords[0] = new ValueTable(Token.TOK_BOOL_FALSE, "FALSE");
         keywords[1] = new ValueTable(Token.TOK_BOOL_TRUE, "TRUE");
@@ -128,6 +128,12 @@ public class Lexer {
         keywords[10] = new ValueTable(Token.TOK_ELSE, "ELSE");
         keywords[11] = new ValueTable(Token.TOK_ENDIF, "ENDIF");
         keywords[12] = new ValueTable(Token.TOK_THEN, "THEN");
+
+        // ----------- Step 7
+
+        keywords[13] = new ValueTable(Token.TOK_END, "END");
+        keywords[14] = new ValueTable(Token.TOK_FUNCTION, "FUNCTION");
+        keywords[15] = new ValueTable(Token.TOK_RETURN, "RETURN");
 
     }
 //      Extract string from the stream
@@ -216,6 +222,11 @@ public class Lexer {
                     break;
                 case '*':
                     tok = Token.TOK_MUL;
+                    index++;
+                    break;
+                case ',':
+                    // -------- Addition in step 7
+                    tok = Token.TOK_COMMA;
                     index++;
                     break;
                 case '(':

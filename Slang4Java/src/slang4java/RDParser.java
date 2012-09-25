@@ -16,7 +16,7 @@ public class RDParser extends Lexer {
 
     public RDParser(String Expr) {
         super(Expr);
-        prog = new TModuleBuilder(); 
+        prog = new TModuleBuilder();
     }
 
     private RelationalOperator GetRelationalOperator(Token tok) {
@@ -161,14 +161,32 @@ public class RDParser extends Lexer {
             ///  Variables 
             ///
             String str = super.last_str;
-            SymbolInfo inf = pb.getSymbolTable().Get(str);
 
-            if (inf == null) {
-                throw new Exception("Undefined symbol");
+            if (!prog.IsFunction(str)) {
+                //
+                // if it is not a function..it ought to 
+                // be a variable...
+                SymbolInfo inf = pb.GetSymbol(str);
+
+                if (inf == null) {
+                    throw new Exception("Undefined symbol");
+                }
+
+                GetNext();
+                return new Variable(inf);
             }
 
+            //
+            // P can be null , if we are parsing a
+            // recursive function call
+            //
+            Procedure p = prog.GetProc(str);
+            // It is a Function Call
+            // Parse the function invocation
+            //
+            Expression ptr = ParseCallProc(pb, p);
             GetNext();
-            RetValue = new Variable(inf);
+            return ptr;
         } else {
 
             System.out.println("Illegal Token");
@@ -180,7 +198,62 @@ public class RDParser extends Lexer {
 
     }
 
+    public Expression ParseCallProc(ProcedureBuilder pb, Procedure p) throws Exception {
+        GetNext();
+
+        if (Current_Token != Token.TOK_OPAREN) {
+            throw new Exception("Opening Parenthesis expected");
+        }
+
+        GetNext();
+
+        ArrayList actualparams = new ArrayList();
+
+        while (true) {
+            // Evaluate Each Expression in the 
+            // parameter list and populate actualparams
+            // list
+            Expression exp = BExpr(pb);
+            // do type analysis
+            exp.TypeCheck(pb.getContext());
+            // if , there are more parameters
+            if (Current_Token == Token.TOK_COMMA) {
+                actualparams.add(exp);
+                GetNext();
+                continue;
+            }
+
+
+            if (Current_Token != Token.TOK_CPAREN) {
+                throw new Exception("Expected paranthesis");
+            } else {
+                // Add the last parameters
+                actualparams.add(exp);
+                break;
+
+            }
+        }
+
+        // if p is null , that means it is a 
+        // recursive call. Being a one pass 
+        // compiler , we need to wait till 
+        // the parse process to be over to
+        // resolve the Procedure.
+        //
+        //
+        if (p != null) {
+            return new CallExpression(p, actualparams);
+        } else {
+            return new CallExpression(pb.getProcedureName(),
+                    true, // recurse !
+                    actualparams);
+        }
+
+
+
+    }
     /// <returns></returns>
+
     public ArrayList Parse(ProcedureBuilder pb) throws Exception {
         GetNext();  // Get the Next Token
         //
@@ -191,22 +264,159 @@ public class RDParser extends Lexer {
 
     public TModule DoParse() {
         try {
-            ProcedureBuilder p = new ProcedureBuilder("MAIN", new CompilationContext());
-            ArrayList stmts = Parse(p);
-
-            for (Object s : stmts) {
-                p.AddStatement((Statement) s);
-            }
-
-            Procedure pc = p.GetProcedure();
-
-            prog.Add(pc);
-            return prog.GetProgram();
+//            ProcedureBuilder p = new ProcedureBuilder("MAIN", new CompilationContext());
+//            ArrayList stmts = Parse(p);
+//            
+//            for (Object s : stmts) {
+//                p.AddStatement((Statement) s);
+//            }
+//            
+//            Procedure pc = p.GetProcedure();
+//            
+//            prog.Add(pc);
+//            return prog.GetProgram();
+            GetNext();   // Get The First Valid Token
+            return ParseFunctions();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.toString());
             return null;
         }
+
+    }
+
+    public TModule ParseFunctions() throws Exception {
+
+        while (Current_Token == Token.TOK_FUNCTION) {
+            ProcedureBuilder b = ParseFunction();
+            Procedure s = b.GetProcedure();
+
+            if (s == null) {
+                System.out.println("Error While Parsing Functions");
+                return null;
+            }
+
+            prog.Add(s);
+            GetNext();
+        }
+
+        //
+        //  Convert the builder into a program
+        //
+        return prog.GetProgram();
+    }
+
+    ProcedureBuilder ParseFunction() throws Exception {
+        //
+        // Create a Procedure builder Object
+        //
+        ProcedureBuilder p = new ProcedureBuilder("", new CompilationContext());
+        if (Current_Token != Token.TOK_FUNCTION) {
+            return null;
+        }
+
+
+        GetNext();
+        // return type of the Procedure ought to be 
+        // Boolean , Numeric or String 
+        if (!(Current_Token == Token.TOK_VAR_BOOL
+                || Current_Token == Token.TOK_VAR_NUMBER
+                || Current_Token == Token.TOK_VAR_STRING)) {
+
+            return null;
+
+        }
+
+        //-------- Assign the return type
+        p.setTypeInfo((Current_Token == Token.TOK_VAR_BOOL)
+                ? TypeInfo.TYPE_BOOL : (Current_Token == Token.TOK_VAR_NUMBER)
+                ? TypeInfo.TYPE_NUMERIC : TypeInfo.TYPE_STRING);
+
+        // Parse the name of the Function call
+        GetNext();
+        if (Current_Token != Token.TOK_UNQUOTED_STRING) {
+            return null;
+        }
+        p.setProcedureName(this.last_str); // assign the name
+
+        // ---------- Opening parenthesis for 
+        // the start of <paramlist>
+        GetNext();
+        if (Current_Token != Token.TOK_OPAREN) {
+            return null;
+        }
+
+        //---- Parse the Formal Parameter list
+        FormalParameters(p);
+
+
+
+        if (Current_Token != Token.TOK_CPAREN) {
+            return null;
+        }
+
+        GetNext();
+
+        // --------- Parse the Function code
+        ArrayList lst = StatementList(p);
+
+        if (Current_Token != Token.TOK_END) {
+            throw new Exception("END expected");
+        }
+
+        // Accumulate all statements to 
+        // Procedure builder
+        //
+        for (Object o : lst) {
+            Statement s = (Statement) o;
+            p.AddStatement(s);
+        }
+        return p;
+    }
+
+    void FormalParameters(ProcedureBuilder pb) throws Exception {
+
+        if (Current_Token != Token.TOK_OPAREN) {
+            throw new Exception("Opening Parenthesis expected");
+        }
+        GetNext();
+
+        ArrayList lst_types = new ArrayList();
+
+        while (Current_Token == Token.TOK_VAR_BOOL
+                || Current_Token == Token.TOK_VAR_NUMBER
+                || Current_Token == Token.TOK_VAR_STRING) {
+            SymbolInfo inf = new SymbolInfo();
+
+            inf.Type = (Current_Token == Token.TOK_VAR_BOOL)
+                    ? TypeInfo.TYPE_BOOL : (Current_Token == Token.TOK_VAR_NUMBER)
+                    ? TypeInfo.TYPE_NUMERIC : TypeInfo.TYPE_STRING;
+
+
+
+
+
+            GetNext();
+            if (Current_Token != Token.TOK_UNQUOTED_STRING) {
+                throw new Exception("Variable Name expected");
+            }
+
+            inf.SymbolName = this.last_str;
+            lst_types.add(inf.Type);
+            pb.AddFormals(inf);
+            pb.AddLocal(inf);
+
+
+            GetNext();
+
+            if (Current_Token != Token.TOK_COMMA) {
+                break;
+            }
+            GetNext();
+        }
+
+        prog.AddFunctionProtoType(pb.getProcedureName(), pb.getTypeInfo(), lst_types);
+        return;
 
     }
     ///  The Grammar is 
@@ -228,7 +438,7 @@ public class RDParser extends Lexer {
         while ((Current_Token != Token.TOK_ELSE)
                 && (Current_Token != Token.TOK_ENDIF)
                 && (Current_Token != Token.TOK_WEND)
-                && (Current_Token != Token.TOK_NULL)) {
+                && (Current_Token != Token.TOK_END)) {
             Statement temp = Statement(pb);
             if (temp != null) {
                 arr.add(temp);
@@ -271,6 +481,10 @@ public class RDParser extends Lexer {
 
             case TOK_WHILE:
                 retval = ParseWhileStatement(pb);
+                GetNext();
+                return retval;
+            case TOK_RETURN:
+                retval = ParseReturnStatement(pb);
                 GetNext();
                 return retval;
             default:
@@ -442,7 +656,7 @@ public class RDParser extends Lexer {
         true_part = StatementList(pb);
 
         if (Current_Token == Token.TOK_ENDIF) {
-            return new ifStatement(exp, true_part, false_part);
+            return new IfStatement(exp, true_part, false_part);
         }
 
 
@@ -459,7 +673,7 @@ public class RDParser extends Lexer {
 
         }
 
-        return new ifStatement(exp, true_part, false_part);
+        return new IfStatement(exp, true_part, false_part);
 
     }
 
@@ -481,6 +695,21 @@ public class RDParser extends Lexer {
 
         }
         return new WhileStatement(exp, body);
+
+    }
+
+    public Statement ParseReturnStatement(ProcedureBuilder pb) throws Exception {
+
+        GetNext();
+        Expression exp = BExpr(pb);
+        if (Current_Token != Token.TOK_SEMI) {
+            CSyntaxErrorLog.AddLine("; expected");
+            CSyntaxErrorLog.AddLine(GetCurrentLine(SaveIndex()));
+            throw new CParserException(-100, " ; expected", -1);
+
+        }
+        pb.TypeCheck(exp);
+        return new ReturnStatement(exp);
 
     }
 }

@@ -29,11 +29,13 @@ public class Procedure extends AbstractProcedure {
 
     //
     public Procedure(String name,
+                                     ArrayList formals,
+
             ArrayList stats,
             SymbolTable locals,
             TypeInfo type) {
         m_name = name;
-        m_formals = null;
+        m_formals = formals;
         m_statements = stats;
         m_locals = locals;
         _type = type;
@@ -51,7 +53,6 @@ public class Procedure extends AbstractProcedure {
         return _type;
     }
 
-    
     public SymbolInfo ReturnValue() {
         return return_value;
     }
@@ -62,13 +63,27 @@ public class Procedure extends AbstractProcedure {
     }
 
     @Override
-    public SymbolInfo Execute(RuntimeContext cont) throws Exception {
+    public SymbolInfo Execute(RuntimeContext cont, ArrayList actuals) throws Exception {
 
+        ArrayList vars = new ArrayList();
+        int i = 0;
+        if (m_formals != null && actuals != null) {
+            i = 0;
+            for (Object o : m_formals) {
+                SymbolInfo b = (SymbolInfo) o;
+                SymbolInfo inf = (SymbolInfo) actuals.get(i);
+                inf.SymbolName = b.SymbolName;
+                cont.getSymbolTable().Add(inf);
+                i++;
+            }
+        }
         for (Object o : m_statements) {
             Statement stmt = (Statement) o;
-            stmt.Execute(cont);
+            return_value = stmt.Execute(cont);
+            if (return_value != null) {
+                return return_value;
+            }
         }
         return null;
-
     }
 }

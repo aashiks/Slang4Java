@@ -43,8 +43,9 @@ public class CallSlang {
             System.out.println("Parse Process Failed");
             return;
         }
-        RuntimeContext f = new RuntimeContext();
-        SymbolInfo fp = p.Execute(f);    }
+        RuntimeContext f = new RuntimeContext(p);
+        SymbolInfo fp = p.Execute(f, null)  ;
+    }
 
     public static void main(String[] args) throws IOException {
         try {
@@ -55,11 +56,9 @@ public class CallSlang {
 
             }
             TestFileScript(args[0]);
-
-
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
+                 System.out.println(e.getMessage());
             e.printStackTrace();
         }
         System.in.read();

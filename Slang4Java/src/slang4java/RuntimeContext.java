@@ -14,18 +14,24 @@ package slang4java;
 public class RuntimeContext {
 
     private SymbolTable symbolTable;
+    private TModule _prog = null;
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
     }
 
+    public TModule GetProgram() {
+        return _prog;
+
+    }
+    
+
     public void setSymbolTable(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
 
-    public RuntimeContext() {
+    public RuntimeContext(TModule program) {
         symbolTable = new SymbolTable();
+        _prog = program;
     }
-
-   
 }

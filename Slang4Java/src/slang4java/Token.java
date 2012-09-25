@@ -35,27 +35,35 @@ public enum Token {
     TOK_BOOL_FALSE, // Boolean FALSE
     TOK_STRING, // String Literal
     TOK_ASSIGN, // Assignment Symbol =
-    
+
     // ----------- Added in Step 6 
     // for relational operator support
 
-    TOK_EQ,                // '=='
-    TOK_NEQ,               // '<>'
-    TOK_GT,                // '>'
-    TOK_GTE,               // '>='
-    TOK_LT,                // '<'
-    TOK_LTE,               // '<='
-    TOK_AND,               // '&&'
-    TOK_OR,                // '||'
-    TOK_NOT,               // '!'
+    TOK_EQ, // '=='
+    TOK_NEQ, // '<>'
+    TOK_GT, // '>'
+    TOK_GTE, // '>='
+    TOK_LT, // '<'
+    TOK_LTE, // '<='
+    TOK_AND, // '&&'
+    TOK_OR, // '||'
+    TOK_NOT, // '!'
 
     //------------ Added in Step 6 for 
     // Control structures support
 
-    TOK_IF,                // IF 
-    TOK_THEN,              // Then  
-    TOK_ELSE,              // Else Statement
-    TOK_ENDIF,             // Endif Statement
-    TOK_WHILE,             // WHILE
-    TOK_WEND              // Wend Statement
+    TOK_IF, // IF 
+    TOK_THEN, // Then  
+    TOK_ELSE, // Else Statement
+    TOK_ENDIF, // Endif Statement
+    TOK_WHILE, // WHILE
+    TOK_WEND, // Wend Statement
+    
+    // ----------- Added in step 7 for 
+    // supporting Functions
+
+    TOK_FUNCTION, // FUNCTION 
+    TOK_END, // END keyword
+    TOK_RETURN, // Return keyword
+    TOK_COMMA              // useful in paramlist
 }

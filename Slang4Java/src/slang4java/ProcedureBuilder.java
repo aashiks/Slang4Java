@@ -17,8 +17,7 @@ public class ProcedureBuilder extends AbstractBuilder {
     private String proc_name = "";
     ///    Compilation context for type analysis
     CompilationContext ctx = null;
-    ///    Procedure does not take any argument..
-    ArrayList m_formals = null;
+    ArrayList m_formals = new ArrayList();
     ///    Array of Statements
     ArrayList m_stmts = new ArrayList();
     ///    Return Type of the procedure
@@ -31,6 +30,11 @@ public class ProcedureBuilder extends AbstractBuilder {
 
     public boolean AddLocal(SymbolInfo info) {
         ctx.getSymbolTable().Add(info);
+        return true;
+    }
+
+    public boolean  AddFormals(SymbolInfo info) {
+        m_formals.add(info);
         return true;
     }
 
@@ -53,12 +57,12 @@ public class ProcedureBuilder extends AbstractBuilder {
 
     }
 
-    public TypeInfo getInf() {
+    public TypeInfo getTypeInfo() {
         return inf;
     }
 
-    public void setInf(TypeInfo inf) {
-        this.inf = inf;
+    public void setTypeInfo(TypeInfo info) {
+        this.inf = info;
     }
 
     public SymbolTable getSymbolTable() {
@@ -69,16 +73,16 @@ public class ProcedureBuilder extends AbstractBuilder {
         return ctx;
     }
 
-    public String getProc_name() {
+    public String getProcedureName() {
         return proc_name;
     }
 
-    public void setProc_name(String proc_name) {
-        this.proc_name = proc_name;
+    public void setProcedureName(String procName) {
+        this.proc_name = procName;
     }
 
     public Procedure GetProcedure() {
-        Procedure ret = new Procedure(proc_name,
+        Procedure ret = new Procedure(proc_name,m_formals,
                 m_stmts, ctx.getSymbolTable(), inf);
         return ret;
     }

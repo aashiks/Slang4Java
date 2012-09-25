@@ -15,10 +15,6 @@ public class TModule extends CompilationUnit {
     //    A Program is a collection of Procedures...
     //    Now , we support only global function...
     private ArrayList m_procs = null;
-    //    List of Compiled Procedures....
-    //    At this point of time..only one procedure
-    //    will be there....
-    private ArrayList compiled_procs = null;
 
     public TModule(ArrayList procs) {
         m_procs = procs;
@@ -26,12 +22,12 @@ public class TModule extends CompilationUnit {
     }
 
     @Override
-    public SymbolInfo Execute(RuntimeContext cont) throws Exception {
+    public SymbolInfo Execute(RuntimeContext cont, ArrayList actuals ) throws Exception {
         Procedure p = Find("Main");
 
         if (p != null) {
 
-            return p.Execute(cont);
+            return p.Execute(cont,actuals);
         }
 
         return null;

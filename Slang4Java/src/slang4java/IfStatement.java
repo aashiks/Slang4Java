@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author aashiks
  */
-public class ifStatement extends Statement {
+public class IfStatement extends Statement {
 
     //    conditional expression
     //    the type ought to be boolean
@@ -22,7 +22,7 @@ public class ifStatement extends Statement {
     //   executed if cond is false
     private ArrayList _elseStatementsList;
 
-    public ifStatement(Expression e, ArrayList ifList, ArrayList elseList) {
+    public IfStatement(Expression e, ArrayList ifList, ArrayList elseList) {
         cond = e;
         _ifStatementsList = ifList;
         _elseStatementsList = elseList;

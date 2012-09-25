@@ -4,10 +4,12 @@
  */
 package slang4java;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author aashiks
  */
 public abstract class CompilationUnit {
-     public abstract SymbolInfo Execute(RuntimeContext cont) throws Exception;
+     public abstract SymbolInfo Execute(RuntimeContext cont, ArrayList actuals) throws Exception;
 }

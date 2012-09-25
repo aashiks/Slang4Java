@@ -29,4 +29,8 @@ public class SymbolTable {
         dt.put(var.GetName(), value);
 
     }
+
+    public void Assign(String var, SymbolInfo value) {
+        dt.put(var, value);
+    }
 }
