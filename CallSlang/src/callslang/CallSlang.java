@@ -31,27 +31,20 @@ public class CallSlang {
         } finally {
             scanner.close();
         }
-        
+
 
         //---------------- Creates the Parser Object
         // With Program text as argument 
         RDParser pars = null;
         pars = new RDParser(text.toString());
-
-        CompilationContext ctx = new CompilationContext();
-        ArrayList stmts = pars.Parse(ctx);
-
-
-        RuntimeContext f = new RuntimeContext();
-        for (Object obj : stmts) {
-            Statement s = (Statement) obj;
-            s.Execute(f);
+        TModule p = null;
+        p = pars.DoParse();
+        if (p == null) {
+            System.out.println("Parse Process Failed");
+            return;
         }
-
-
-
-
-    }
+        RuntimeContext f = new RuntimeContext();
+        SymbolInfo fp = p.Execute(f);    }
 
     public static void main(String[] args) throws IOException {
         try {
@@ -62,9 +55,10 @@ public class CallSlang {
 
             }
             TestFileScript(args[0]);
-           
+
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             e.printStackTrace();
         }

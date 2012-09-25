@@ -109,7 +109,7 @@ public class Lexer {
         // Fill the Keywords
         //
         //
-        keywords = new ValueTable[7];
+        keywords = new ValueTable[13];
 
         keywords[0] = new ValueTable(Token.TOK_BOOL_FALSE, "FALSE");
         keywords[1] = new ValueTable(Token.TOK_BOOL_TRUE, "TRUE");
@@ -118,6 +118,16 @@ public class Lexer {
         keywords[4] = new ValueTable(Token.TOK_VAR_NUMBER, "NUMERIC");
         keywords[5] = new ValueTable(Token.TOK_PRINT, "PRINT");
         keywords[6] = new ValueTable(Token.TOK_PRINTLN, "PRINTLINE");
+
+        // -------------- Added in the step 6
+        // -------------- To support control structures
+
+        keywords[7] = new ValueTable(Token.TOK_IF, "IF");
+        keywords[8] = new ValueTable(Token.TOK_WHILE, "WHILE");
+        keywords[9] = new ValueTable(Token.TOK_WEND, "WEND");
+        keywords[10] = new ValueTable(Token.TOK_ELSE, "ELSE");
+        keywords[11] = new ValueTable(Token.TOK_ENDIF, "ENDIF");
+        keywords[12] = new ValueTable(Token.TOK_THEN, "THEN");
 
     }
 //      Extract string from the stream
@@ -220,7 +230,58 @@ public class Lexer {
                     tok = Token.TOK_CPAREN;
                     index++;
                     break;
-
+                case '!':
+                    tok = Token.TOK_NOT;
+                    index++;
+                    break;
+                case '>':
+                    if (iExpr.toCharArray()[index + 1] == '=') {
+                        tok = Token.TOK_GTE;
+                        index += 2;
+                    } else {
+                        tok = Token.TOK_GT;
+                        index++;
+                    }
+                    break;
+                case '<':
+                    if (iExpr.toCharArray()[index + 1] == '=') {
+                        tok = Token.TOK_LTE;
+                        index += 2;
+                    } else if (iExpr.toCharArray()[index + 1] == '>') {
+                        tok = Token.TOK_NEQ;
+                        index += 2;
+                    } else {
+                        tok = Token.TOK_LT;
+                        index++;
+                    }
+                    break;
+                case '=':
+                    if (iExpr.toCharArray()[index + 1] == '=') {
+                        tok = Token.TOK_EQ;
+                        index += 2;
+                    } else {
+                        tok = Token.TOK_ASSIGN;
+                        index++;
+                    }
+                    break;
+                case '&':
+                    if (iExpr.toCharArray()[index + 1] == '&') {
+                        tok = Token.TOK_AND;
+                        index += 2;
+                    } else {
+                        tok = Token.ILLEGAL_TOKEN;
+                        index++;
+                    }
+                    break;
+                case '|':
+                    if (iExpr.toCharArray()[index + 1] == '|') {
+                        tok = Token.TOK_OR;
+                        index += 2;
+                    } else {
+                        tok = Token.ILLEGAL_TOKEN;
+                        index++;
+                    }
+                    break;
                 case '/':
 
                     if (iExpr.toCharArray()[index + 1] == '/') {
@@ -233,11 +294,6 @@ public class Lexer {
                         index++;
                     }
                     break;
-                case '=':
-                    tok = Token.TOK_ASSIGN;
-                    index++;
-                    break;
-
                 case '"':
                     String x = "";
                     index++;
@@ -259,7 +315,6 @@ public class Lexer {
                     if (Character.isDigit(iExpr.toCharArray()[index])) {
 
                         String str = "";
-
                         while (index < length && (iExpr.toCharArray()[index] == '0'
                                 || iExpr.toCharArray()[index] == '1'
                                 || iExpr.toCharArray()[index] == '2'
@@ -290,9 +345,7 @@ public class Lexer {
                                 str += (iExpr.toCharArray()[index]);
                                 index++;
                             }
-
                         }
-
                         number = Double.parseDouble(str);
                         tok = Token.TOK_NUMERIC;
                     } else if (Character.isLetter(iExpr.toCharArray()[index])) {
@@ -314,16 +367,8 @@ public class Lexer {
                             }
 
                         }
-
-
                         this.last_str = tem;
-
-
-
                         return Token.TOK_UNQUOTED_STRING;
-
-
-
                     } else {
                         return Token.ILLEGAL_TOKEN;
                     }
