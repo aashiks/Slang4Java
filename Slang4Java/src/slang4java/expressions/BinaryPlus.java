@@ -62,7 +62,7 @@ public class BinaryPlus extends AbstractExpression {
             _type = eval_leftTypeInfo;
             return _type;
         } else {
-            throw new Exception("Type mismatch failure");
+            throw new Exception("Binary Plus - Type mismatch failure");
 
         }
     }

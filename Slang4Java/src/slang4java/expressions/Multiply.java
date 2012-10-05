@@ -55,7 +55,9 @@ public class Multiply extends AbstractExpression {
             _type = eval_leftTypeInfo;
             return _type;
         } else {
-            throw new Exception("Type mismatch failure");
+            System.out.println("left " + eval_leftTypeInfo.toString());
+            System.out.println("right " + eval_rightTypeInfo.toString());
+            throw new Exception("Multiplication - Type mismatch failure");
 
         }
     }

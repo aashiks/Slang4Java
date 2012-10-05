@@ -4,6 +4,8 @@
  */
 package slang4java.lexer;
 
+import slang4java.metainfo.Token;
+
 /**
  *
  * @author aashiks

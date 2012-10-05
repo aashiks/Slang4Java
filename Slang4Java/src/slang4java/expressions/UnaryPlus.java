@@ -28,7 +28,7 @@ public class UnaryPlus extends AbstractExpression {
 
         SymbolInfo eval_expr = expr.Evaluate(cont);
 
-        // Allow only numeric substraction
+        // Allow only numeric 
         if (eval_expr.Type == TypeInfo.TYPE_NUMERIC) {
             SymbolInfo retval = new SymbolInfo();
             retval.DoubleValue = eval_expr.DoubleValue;
@@ -52,7 +52,7 @@ public class UnaryPlus extends AbstractExpression {
             _type = eval_exprType;
             return _type;
         } else {
-            throw new Exception("Type mismatch failure");
+            throw new Exception("Unary Plus Type mismatch failure");
 
         }
     }

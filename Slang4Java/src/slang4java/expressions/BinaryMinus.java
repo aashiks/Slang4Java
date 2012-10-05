@@ -55,7 +55,7 @@ public class BinaryMinus  extends AbstractExpression {
             _type = eval_leftTypeInfo;
             return _type;
         } else {
-            throw new Exception("Type mismatch failure");
+            throw new Exception("Binary Minus - Type mismatch failure");
 
         }
     }

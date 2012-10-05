@@ -52,7 +52,7 @@ public class UnaryMinus extends AbstractExpression {
             _type = eval_exprType;
             return _type;
         } else {
-            throw new Exception("Type mismatch failure");
+            throw new Exception("Unary Minus - Type mismatch failure");
 
         }
     }

@@ -11,8 +11,7 @@ import slang4java.metainfo.TypeInfo;
 
 /**
  *
- * @author aashiks
- * prints the value of an expression on to screen
+ * @author aashiks prints the value of an expression on to screen
  */
 public class PrintStatement extends Statement {
 
@@ -21,24 +20,19 @@ public class PrintStatement extends Statement {
     public PrintStatement(AbstractExpression ex) {
         _ex = ex;
     }
-   
 
     @Override
     public SymbolInfo Execute(RuntimeContext cont) throws Exception {
-    
+
         SymbolInfo val = _ex.Evaluate(cont);
-        
-        if (val.Type == TypeInfo.TYPE_NUMERIC){
+
+        if (val.Type == TypeInfo.TYPE_NUMERIC) {
             System.out.print(val.DoubleValue);
-        }
-        else if(val.Type == TypeInfo.TYPE_STRING){
+        } else if (val.Type == TypeInfo.TYPE_STRING) {
             System.out.print(val.StringValue);
-        }
-        else {
+        } else {
             System.out.print(val.BoolValue);
         }
         return null;
     }
-    
-    
 }

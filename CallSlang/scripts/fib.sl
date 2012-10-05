@@ -16,14 +16,14 @@ FUNCTION BOOLEAN MAIN()
 
  newterm = currterm + prevterm;
 
- PrintLine newterm; 
+ 
 
- while ( newterm <  1000 )
-   
+ while ( newterm < 1000 )
+   PrintLine newterm;
    prevterm = currterm;
    currterm = newterm;
    newterm  = currterm + prevterm; 
-   PrintLine newterm;
+   
    
  wend
 

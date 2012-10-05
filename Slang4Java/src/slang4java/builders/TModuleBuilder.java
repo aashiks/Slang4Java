@@ -1,14 +1,14 @@
-/*
+        /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package slang4java.builders;
 
 import java.util.ArrayList;
-import slang4java.metainfo.FunctionInfo;
-import slang4java.procedures.Procedure;
 import slang4java.compilationunits.TModule;
+import slang4java.metainfo.FunctionInfo;
 import slang4java.metainfo.TypeInfo;
+import slang4java.procedures.Procedure;
 
 /**
  *

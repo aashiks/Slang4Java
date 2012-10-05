@@ -33,6 +33,8 @@ public class AssignmentStatement extends Statement {
     @Override
     public SymbolInfo Execute(RuntimeContext cont) throws Exception {
         SymbolInfo val = expr.Evaluate(cont);
+        
+        
         cont.getSymbolTable().Assign(variable, val);
         return null;
     }

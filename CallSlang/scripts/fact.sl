@@ -7,7 +7,9 @@
 
 FUNCTION NUMERIC FACT( NUMERIC d )
     IF ( d <= 0 ) THEN
-          return 1;
+          numeric x;
+          x=1;
+          return x;
     ELSE
           return d*FACT(d-1);
     ENDIF

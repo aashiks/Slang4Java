@@ -9,7 +9,9 @@ import slang4java.builders.*;
 import slang4java.compilationunits.TModule;
 import slang4java.contexts.CompilationContext;
 import slang4java.expressions.*;
+import slang4java.metainfo.RelationalOperators;
 import slang4java.metainfo.SymbolInfo;
+import slang4java.metainfo.Token;
 import slang4java.metainfo.TypeInfo;
 import slang4java.procedures.*;
 import slang4java.statements.*;
@@ -125,7 +127,6 @@ public class RDParser extends Lexer {
 
 
         if (Current_Token == Token.TOK_NUMERIC) {
-
             RetValue = new NumericConstant(GetNumber());
             Current_Token = GetToken();
 
@@ -255,7 +256,8 @@ public class RDParser extends Lexer {
         } else {
             return new CallExpression(pb.getProcedureName(),
                     true, // recurse !
-                    actualparams);
+                    actualparams,
+                    pb.GetProcedure()._type);
         }
 
 
@@ -457,7 +459,7 @@ public class RDParser extends Lexer {
 
     private Statement Statement(ProcedureBuilder pb) throws Exception {
         Statement retval = null;
-        
+
         switch (this.Current_Token) {
             case TOK_VAR_STRING:
             case TOK_VAR_NUMBER:

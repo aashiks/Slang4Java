@@ -7,9 +7,11 @@ package callslang;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import slang4java.*;
+import slang4java.compilationunits.TModule;
+import slang4java.contexts.RuntimeContext;
+import slang4java.lexer.RDParser;
+import slang4java.metainfo.SymbolInfo;
 
 /**
  *
@@ -35,8 +37,7 @@ public class CallSlang {
 
         //---------------- Creates the Parser Object
         // With Program text as argument 
-        RDParser pars = null;
-        pars = new RDParser(text.toString());
+        RDParser pars = new RDParser(text.toString());
         TModule p = null;
         p = pars.DoParse();
         if (p == null) {

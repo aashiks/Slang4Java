@@ -37,6 +37,7 @@ public class PrintLineStatement extends Statement{
         else {
             System.out.println(val.BoolValue);
         }
+        
         return null;
     }
 }

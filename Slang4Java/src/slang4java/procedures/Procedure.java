@@ -34,9 +34,7 @@ public class Procedure extends AbstractProcedure {
     public TypeInfo _type = TypeInfo.TYPE_ILLEGAL;
 
     //
-    public Procedure(String name,
-                                     ArrayList formals,
-
+    public Procedure(String name, ArrayList formals,
             ArrayList stats,
             SymbolTable locals,
             TypeInfo type) {
@@ -64,7 +62,6 @@ public class Procedure extends AbstractProcedure {
     }
 
     public TypeInfo TypeCheck(CompilationContext cont) {
-
         return TypeInfo.TYPE_NUMERIC;
     }
 
@@ -87,15 +84,10 @@ public class Procedure extends AbstractProcedure {
             Statement stmt = (Statement) o;
            
             return_value = stmt.Execute(cont);
-            
-            if(return_value == null ){System.out.println("here");}
-            
             if (return_value != null) {
-               System.out.println("Execute symbol" + return_value.SymbolName); 
                 return return_value;
             }
         }
-        System.out.println("something is wrong");
         return null;
     }
 }

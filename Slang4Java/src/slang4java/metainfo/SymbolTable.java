@@ -28,7 +28,6 @@ public class SymbolTable {
     public void Assign(Variable var, SymbolInfo value) {
         value.SymbolName = var.GetName();
         dt.put(var.GetName(), value);
-
     }
 
     public void Assign(String var, SymbolInfo value) {

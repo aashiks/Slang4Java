@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package slang4java.lexer;
+package slang4java.metainfo;
 
 /**
  *
@@ -18,7 +18,7 @@ public enum Token {
     TOK_SUB, // '-'
     TOK_OPAREN, // '('
     TOK_CPAREN, // ')'
-    TOK_DOUBLE, // 'number'
+    
     TOK_NULL, // End of string
     TOK_PRINT, // Print Statement
     TOK_PRINTLN, // PrintLine

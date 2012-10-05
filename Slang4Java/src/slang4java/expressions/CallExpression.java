@@ -36,12 +36,12 @@ public class CallExpression extends AbstractExpression {
     }
     //    Ctor to implement Recursive sub routine
 
-    public CallExpression(String name, boolean recurse, ArrayList actuals) {
+    public CallExpression(String name, boolean recurse, ArrayList actuals,TypeInfo t) {
         _procname = name;
         if (recurse) {
             _isrecurse = true;
         }
-
+        _type=t;
         m_actuals = actuals;
         //
         // For a recursive call Procedure Address will be null
@@ -98,8 +98,8 @@ public class CallExpression extends AbstractExpression {
         if (m_proc != null) {
             _type = m_proc.TypeCheck(cont);
 
-        }
-
+        }   
+            
         return _type;
 
     }

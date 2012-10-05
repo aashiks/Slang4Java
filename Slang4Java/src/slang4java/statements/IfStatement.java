@@ -28,6 +28,7 @@ public class IfStatement extends Statement {
 
     public IfStatement(AbstractExpression e, ArrayList ifList, ArrayList elseList) {
         cond = e;
+      
         _ifStatementsList = ifList;
         _elseStatementsList = elseList;
     }
@@ -38,15 +39,24 @@ public class IfStatement extends Statement {
         if ((m_cond == null) || (m_cond.Type != TypeInfo.TYPE_BOOL)) {
             return null;
         }
+        SymbolInfo ret = null;
         if (m_cond.BoolValue == true) {
             for (Object s : _ifStatementsList) {
                 Statement statement = (Statement) s;
-                statement.Execute(cont);
+                ret=statement.Execute(cont);
+                if(ret!=null){
+                    return ret;
+                }
             }
-        } else if (_elseStatementsList != null) {
+        } 
+        
+        if((m_cond.BoolValue == false)&& (_elseStatementsList != null)){
             for (Object s : _elseStatementsList) {
                 Statement statement = (Statement) s;
-                statement.Execute(cont);
+                ret=statement.Execute(cont);
+                if(ret!=null){
+                    return ret;
+                }
             }
         }
         return null;

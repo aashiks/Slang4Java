@@ -7,11 +7,11 @@ package slang4java.builders;
 import java.util.ArrayList;
 import slang4java.contexts.CompilationContext;
 import slang4java.expressions.AbstractExpression;
-import slang4java.procedures.Procedure;
-import slang4java.statements.Statement;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.SymbolTable;
 import slang4java.metainfo.TypeInfo;
+import slang4java.procedures.Procedure;
+import slang4java.statements.Statement;
 
 /**
  *

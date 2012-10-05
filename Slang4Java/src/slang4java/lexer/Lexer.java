@@ -4,6 +4,8 @@
  */
 package slang4java.lexer;
 
+import slang4java.metainfo.Token;
+
 /**
  *
  * @author aashiks
@@ -39,7 +41,7 @@ public class Lexer {
         if (pindex >= length) {
             tindex = length - 1;
         }
-        while (tindex > 0 && iExpr.toCharArray()[tindex] != '\n') {
+        while ((tindex > 0 )&& (iExpr.toCharArray()[tindex] != '\n')) {
             tindex--;
         }
 
@@ -49,7 +51,7 @@ public class Lexer {
 
         String CurrentLine = "";
 
-        while (tindex < length && (iExpr.toCharArray()[tindex] != '\n')) {
+        while ((tindex < length) && (iExpr.toCharArray()[tindex] != '\n')) {
             CurrentLine = CurrentLine + iExpr.toCharArray()[tindex];
             tindex++;
         }
@@ -61,7 +63,7 @@ public class Lexer {
     public String GetPreviousLine(int pindex) {
 
         int tindex = pindex;
-        while (tindex > 0 && iExpr.toCharArray()[tindex] != '\n') {
+        while ((tindex > 0 )&& (iExpr.toCharArray()[tindex] != '\n')) {
             tindex--;
         }
 
@@ -71,7 +73,7 @@ public class Lexer {
             return "";
         }
 
-        while (tindex > 0 && iExpr.toCharArray()[tindex] != '\n') {
+        while ((tindex > 0) && (iExpr.toCharArray()[tindex] != '\n')) {
             tindex--;
         }
 
@@ -198,7 +200,6 @@ public class Lexer {
 
                 case '\n':
                     index++;
-
                     restartloop = true;
                     break;
                 case '\r':
@@ -289,7 +290,7 @@ public class Lexer {
                     break;
                 case '/':
 
-                    if (iExpr.toCharArray()[index + 1] == '/') {
+                    if (iExpr.toCharArray()[index + 1] == '/') { //comment
                         SkipToEoln();
                         restartloop = true;
                         break;

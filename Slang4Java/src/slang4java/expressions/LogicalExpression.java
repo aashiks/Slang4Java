@@ -6,7 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
-import slang4java.lexer.Token;
+import slang4java.metainfo.Token;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 

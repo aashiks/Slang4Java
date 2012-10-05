@@ -27,9 +27,9 @@ FUNCTION BOOLEAN MAIN()
          PRINT "No Roots";
    ELSE
        IF ( d  == 1 ) then
-         PRINT  "Discriminant is zero";
+         PRINTLINE  "Discriminant is zero";        
        ELSE
-         PRINT  "Two roots are available";
+         PRINTLINE  "Two roots are available";
        ENDIF
    ENDIF
 END

@@ -6,7 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
-import slang4java.lexer.RelationalOperators;
+import slang4java.metainfo.RelationalOperators;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -44,17 +44,17 @@ public class RelationalExpression extends AbstractExpression {
             retval.SymbolName = "";
 
             if (m_op == RelationalOperators.TOK_EQ) {
-                retval.BoolValue = eval_left.DoubleValue == eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue == eval_right.DoubleValue) ;
             } else if (m_op == RelationalOperators.TOK_NEQ) {
-                retval.BoolValue = eval_left.DoubleValue != eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue != eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_GT) {
-                retval.BoolValue = eval_left.DoubleValue > eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue > eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_GTE) {
-                retval.BoolValue = eval_left.DoubleValue >= eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue >= eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_LTE) {
-                retval.BoolValue = eval_left.DoubleValue <= eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue <= eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_LT) {
-                retval.BoolValue = eval_left.DoubleValue < eval_right.DoubleValue;
+                retval.BoolValue = (eval_left.DoubleValue < eval_right.DoubleValue);
             }
             return retval;
 
@@ -86,9 +86,9 @@ public class RelationalExpression extends AbstractExpression {
             retval.SymbolName = "";
 
             if (m_op == RelationalOperators.TOK_EQ) {
-                retval.BoolValue = eval_left.BoolValue == eval_right.BoolValue;
+                retval.BoolValue = (eval_left.BoolValue == eval_right.BoolValue);
             } else if (m_op == RelationalOperators.TOK_NEQ) {
-                retval.BoolValue = eval_left.BoolValue != eval_right.BoolValue;
+                retval.BoolValue = (eval_left.BoolValue != eval_right.BoolValue);
             } else {
                 retval.BoolValue = false;
 
