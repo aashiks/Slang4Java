@@ -21,6 +21,6 @@ these scripts can be executed from terminal by issuing:
 
 java -jar <fullpath_to_Slang4Java/CallSlang>/dist/CallSlang.jar <fullpath_to_scriptfile>
 
-Currently STEP 6 has been ported. Step 5 has been ignored for the moment, and hence only interpretation works.
+Currently all steps till STEP 7 has been ported. Step 5 has been ignored for the moment, and hence only interpretation works.
 
 Refer to the pdf available in the DOC folder of the archive available from http://slangfordotnet.codeplex.com/
