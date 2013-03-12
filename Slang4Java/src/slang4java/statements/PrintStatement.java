@@ -6,6 +6,7 @@ package slang4java.statements;
 
 import slang4java.contexts.RuntimeContext;
 import slang4java.expressions.AbstractExpression;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -13,7 +14,7 @@ import slang4java.metainfo.TypeInfo;
  *
  * @author aashiks prints the value of an expression on to screen
  */
-public class PrintStatement extends Statement {
+public class PrintStatement extends AbstractStatement {
 
     private AbstractExpression _ex;
 
@@ -34,5 +35,10 @@ public class PrintStatement extends Statement {
             System.out.print(val.BoolValue);
         }
         return null;
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+       return g.PrintLineStatement(_ex);
     }
 }

@@ -6,6 +6,7 @@ package slang4java.compilationunits;
 
 import java.util.ArrayList;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.procedures.Procedure;
 
@@ -49,5 +50,15 @@ public class TModule extends AbstractCompilationUnit {
 
         return null;
 
+    }
+
+    @Override
+    public String Generate(IGenerator generator) {
+        String program = "";
+        for(Object o : m_procs){
+            Procedure p = (Procedure) o;
+            program += p.Generate(generator);
+        }
+        return program;
     }
 }

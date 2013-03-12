@@ -7,6 +7,7 @@ package slang4java.statements;
 import java.util.ArrayList;
 import slang4java.contexts.RuntimeContext;
 import slang4java.expressions.AbstractExpression;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -14,7 +15,7 @@ import slang4java.metainfo.TypeInfo;
  *
  * @author aashiks
  */
-public class IfStatement extends Statement {
+public class IfStatement extends AbstractStatement {
 
     //    conditional expression
     //    the type ought to be boolean
@@ -28,7 +29,7 @@ public class IfStatement extends Statement {
 
     public IfStatement(AbstractExpression e, ArrayList ifList, ArrayList elseList) {
         cond = e;
-      
+
         _ifStatementsList = ifList;
         _elseStatementsList = elseList;
     }
@@ -42,23 +43,28 @@ public class IfStatement extends Statement {
         SymbolInfo ret = null;
         if (m_cond.BoolValue == true) {
             for (Object s : _ifStatementsList) {
-                Statement statement = (Statement) s;
-                ret=statement.Execute(cont);
-                if(ret!=null){
+                AbstractStatement statement = (AbstractStatement) s;
+                ret = statement.Execute(cont);
+                if (ret != null) {
                     return ret;
                 }
             }
-        } 
-        
-        if((m_cond.BoolValue == false)&& (_elseStatementsList != null)){
+        }
+
+        if ((m_cond.BoolValue == false) && (_elseStatementsList != null)) {
             for (Object s : _elseStatementsList) {
-                Statement statement = (Statement) s;
-                ret=statement.Execute(cont);
-                if(ret!=null){
+                AbstractStatement statement = (AbstractStatement) s;
+                ret = statement.Execute(cont);
+                if (ret != null) {
                     return ret;
                 }
             }
         }
         return null;
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.IfStatement(cond, _ifStatementsList, _elseStatementsList);
     }
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import slang4java.compilationunits.TModule;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.JSGenerator;
 import slang4java.lexer.RDParser;
 import slang4java.metainfo.SymbolInfo;
 
@@ -44,6 +45,12 @@ public class CallSlang {
             System.out.println("Parse Process Failed");
             return;
         }
+        JSGenerator js = new JSGenerator();
+        
+        String jsString = p.Generate(js);
+        System.out.print(jsString);
+        // Okay the program has been parsed, which means its executable.
+        
         RuntimeContext f = new RuntimeContext(p);
         SymbolInfo fp = p.Execute(f, null)  ;
     }

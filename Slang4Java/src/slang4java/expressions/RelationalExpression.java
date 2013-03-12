@@ -6,6 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.RelationalOperators;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
@@ -44,7 +45,7 @@ public class RelationalExpression extends AbstractExpression {
             retval.SymbolName = "";
 
             if (m_op == RelationalOperators.TOK_EQ) {
-                retval.BoolValue = (eval_left.DoubleValue == eval_right.DoubleValue) ;
+                retval.BoolValue = (eval_left.DoubleValue == eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_NEQ) {
                 retval.BoolValue = (eval_left.DoubleValue != eval_right.DoubleValue);
             } else if (m_op == RelationalOperators.TOK_GT) {
@@ -128,5 +129,10 @@ public class RelationalExpression extends AbstractExpression {
     @Override
     public TypeInfo GetType() {
         return _type;
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.RelationalExpression(m_op, leftExpr, rightExpr);
     }
 }

@@ -7,10 +7,11 @@ package slang4java.procedures;
 import java.util.ArrayList;
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.SymbolTable;
 import slang4java.metainfo.TypeInfo;
-import slang4java.statements.Statement;
+import slang4java.statements.AbstractStatement;
 
 /**
  *
@@ -81,13 +82,18 @@ public class Procedure extends AbstractProcedure {
             }
         }
         for (Object o : m_statements) {
-            Statement stmt = (Statement) o;
-           
+            AbstractStatement stmt = (AbstractStatement) o;
+
             return_value = stmt.Execute(cont);
             if (return_value != null) {
                 return return_value;
             }
         }
         return null;
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.Procedure(m_name, m_formals, m_statements);
     }
 }

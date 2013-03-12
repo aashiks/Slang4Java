@@ -378,7 +378,7 @@ public class RDParser extends Lexer {
         // Procedure builder
         //
         for (Object o : lst) {
-            Statement s = (Statement) o;
+            AbstractStatement s = (AbstractStatement) o;
             p.AddStatement(s);
         }
         return p;
@@ -449,7 +449,7 @@ public class RDParser extends Lexer {
                 && (Current_Token != Token.TOK_ENDIF)
                 && (Current_Token != Token.TOK_WEND)
                 && (Current_Token != Token.TOK_END)) {
-            Statement temp = Statement(pb);
+            AbstractStatement temp = Statement(pb);
             if (temp != null) {
                 arr.add(temp);
             }
@@ -457,8 +457,8 @@ public class RDParser extends Lexer {
         return arr;
     }
 
-    private Statement Statement(ProcedureBuilder pb) throws Exception {
-        Statement retval = null;
+    private AbstractStatement Statement(ProcedureBuilder pb) throws Exception {
+        AbstractStatement retval = null;
 
         switch (this.Current_Token) {
             case TOK_VAR_STRING:
@@ -506,7 +506,7 @@ public class RDParser extends Lexer {
     ///    semi collon to terminate the line..
     ///    Once Parse Process is successful , we create a PrintStatement
     ///    Object..
-    private Statement ParsePrintStatement(ProcedureBuilder pb) throws Exception {
+    private AbstractStatement ParsePrintStatement(ProcedureBuilder pb) throws Exception {
         GetNext();
         AbstractExpression a = BinaryExpression(pb);
 
@@ -525,7 +525,7 @@ public class RDParser extends Lexer {
     ///    semi collon to terminate the line..
     ///    Once Parse Process is successful , we create a PrintLineStatement
     ///    Object..
-    private Statement ParsePrintLNStatement(ProcedureBuilder pb) throws Exception {
+    private AbstractStatement ParsePrintLNStatement(ProcedureBuilder pb) throws Exception {
         GetNext();
         AbstractExpression a = Expression(pb);
 
@@ -536,7 +536,7 @@ public class RDParser extends Lexer {
         return new PrintLineStatement(a);
     }
 
-    public Statement ParseVariableDeclStatement(ProcedureBuilder pb) throws Exception {
+    public AbstractStatement ParseVariableDeclStatement(ProcedureBuilder pb) throws Exception {
 
         //--- Save the Data type 
         Token tok = Current_Token;
@@ -582,7 +582,7 @@ public class RDParser extends Lexer {
 
     }
 
-    public Statement ParseAssignmentStatement(ProcedureBuilder pb) throws Exception {
+    public AbstractStatement ParseAssignmentStatement(ProcedureBuilder pb) throws Exception {
 
         //
         // Retrieve the variable and look it up in 
@@ -636,7 +636,7 @@ public class RDParser extends Lexer {
 
     }
 
-    public Statement ParseIfStatement(ProcedureBuilder pb) throws Exception {
+    public AbstractStatement ParseIfStatement(ProcedureBuilder pb) throws Exception {
         GetNext();
         ArrayList true_part;
         true_part = null;
@@ -684,7 +684,7 @@ public class RDParser extends Lexer {
 
     }
 
-    public Statement ParseWhileStatement(ProcedureBuilder pb) throws Exception {
+    public AbstractStatement ParseWhileStatement(ProcedureBuilder pb) throws Exception {
 
         GetNext();
 
@@ -705,7 +705,7 @@ public class RDParser extends Lexer {
 
     }
 
-    public Statement ParseReturnStatement(ProcedureBuilder pb) throws Exception {
+    public AbstractStatement ParseReturnStatement(ProcedureBuilder pb) throws Exception {
 
         GetNext();
         AbstractExpression exp = BinaryExpression(pb);

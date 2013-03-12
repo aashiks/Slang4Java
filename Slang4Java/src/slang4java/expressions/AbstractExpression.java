@@ -6,6 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -16,6 +17,7 @@ import slang4java.metainfo.TypeInfo;
  */
 public abstract class AbstractExpression {
     public abstract SymbolInfo Evaluate(RuntimeContext cont) throws Exception;
+    public abstract String Generate(IGenerator g);
     public abstract TypeInfo TypeCheck(CompilationContext cont) throws Exception;
     public abstract TypeInfo GetType();
 }

@@ -6,6 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -46,7 +47,7 @@ public class UnaryPlus extends AbstractExpression {
     @Override
     public TypeInfo TypeCheck(CompilationContext cont) throws Exception {
         TypeInfo eval_exprType = expr.TypeCheck(cont);
-       
+
 
         if (eval_exprType == TypeInfo.TYPE_NUMERIC) {
             _type = eval_exprType;
@@ -61,5 +62,9 @@ public class UnaryPlus extends AbstractExpression {
     public TypeInfo GetType() {
         return _type;
     }
-    
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.UnaryPlus(expr);
+    }
 }

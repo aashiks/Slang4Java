@@ -6,13 +6,14 @@ package slang4java.statements;
 
 import slang4java.contexts.RuntimeContext;
 import slang4java.expressions.AbstractExpression;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 
 /**
  *
  * @author aashiks
  */
-public class ReturnStatement extends Statement {
+public class ReturnStatement extends AbstractStatement {
 
     private AbstractExpression _exp;
     private SymbolInfo inf = null;
@@ -26,5 +27,10 @@ public class ReturnStatement extends Statement {
         inf = (_exp == null) ? null : _exp.Evaluate(cont);
         return inf;
 
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.ReturnStatement(_exp);
     }
 }

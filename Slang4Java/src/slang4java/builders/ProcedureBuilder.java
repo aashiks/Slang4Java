@@ -11,7 +11,7 @@ import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.SymbolTable;
 import slang4java.metainfo.TypeInfo;
 import slang4java.procedures.Procedure;
-import slang4java.statements.Statement;
+import slang4java.statements.AbstractStatement;
 
 /**
  *
@@ -49,7 +49,7 @@ public class ProcedureBuilder extends AbstractBuilder {
         return e.TypeCheck(ctx);
     }
 
-    public void AddStatement(Statement st) {
+    public void AddStatement(AbstractStatement st) {
         m_stmts.add(st);
     }
 

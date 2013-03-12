@@ -6,6 +6,7 @@ package slang4java.expressions;
 
 import slang4java.contexts.CompilationContext;
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -64,6 +65,11 @@ public class Division extends AbstractExpression {
     public TypeInfo GetType() {
         return _type;
     } 
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.Division(leftExpr, rightExpr);
+    }
     
     
 }

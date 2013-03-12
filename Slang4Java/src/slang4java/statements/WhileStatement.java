@@ -7,6 +7,7 @@ package slang4java.statements;
 import java.util.ArrayList;
 import slang4java.contexts.RuntimeContext;
 import slang4java.expressions.AbstractExpression;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 import slang4java.metainfo.TypeInfo;
 
@@ -14,7 +15,7 @@ import slang4java.metainfo.TypeInfo;
  *
  * @author aashiks
  */
-public class WhileStatement extends Statement {
+public class WhileStatement extends AbstractStatement {
 //    conditional expression
     //    the type ought to be boolean
 
@@ -44,7 +45,7 @@ public class WhileStatement extends Statement {
 
             SymbolInfo tsp = null;
             for (Object o : _statementsList) {
-                Statement rst = (Statement) o;
+                AbstractStatement rst = (AbstractStatement) o;
                 tsp = rst.Execute(cont);
                 if (tsp != null) {
                     return tsp;
@@ -52,5 +53,10 @@ public class WhileStatement extends Statement {
             }
         }
 
+    }
+
+    @Override
+    public String Generate(IGenerator g) {
+        return g.WhileStatement(cond, _statementsList);
     }
 }

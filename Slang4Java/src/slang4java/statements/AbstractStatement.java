@@ -5,6 +5,7 @@
 package slang4java.statements;
 
 import slang4java.contexts.RuntimeContext;
+import slang4java.generators.IGenerator;
 import slang4java.metainfo.SymbolInfo;
 
 /**
@@ -13,6 +14,7 @@ import slang4java.metainfo.SymbolInfo;
  * 
  * A statement is what you execute for it's effect
  */
-public abstract class Statement {
+public abstract class AbstractStatement {
     public abstract SymbolInfo Execute(RuntimeContext cont) throws Exception;
+    public abstract String Generate(IGenerator g);
 }
