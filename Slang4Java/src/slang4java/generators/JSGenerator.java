@@ -61,7 +61,9 @@ public class JSGenerator implements IGenerator {
             expression += ex.Generate(this);
             expression += ",";
         }
-        expression = expression.substring(0, expression.length() - 1);
+        if (actuals.size() > 0) {
+            expression = expression.substring(0, expression.length() - 1);
+        }
         expression += ")";
         return expression;
     }
@@ -205,14 +207,16 @@ public class JSGenerator implements IGenerator {
             val += info.SymbolName;
             val += ",";
         }
-        val = val.substring(0, val.length() - 1);
+        if (formals.size() > 0) {
+            val = val.substring(0, val.length() - 1);
+        }
         val += ") {";
         val += System.getProperty("line.separator");
-        for(Object o: statements){
+        for (Object o : statements) {
             AbstractStatement s = (AbstractStatement) o;
             val += s.Generate(this);
         }
-        
+
         val += System.getProperty("line.separator");
         val += "}";
         val += System.getProperty("line.separator");
